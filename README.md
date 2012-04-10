@@ -12,14 +12,17 @@ To use the program, simply enter the projectile's paramaters and click 'Plot Tra
 
 I’ve put the default values to those of a 3/8” steel ball-bearing, shot at an angle of 5 degrees with an initial velocity of 80 metres/second, as an example. The blue line represents the trajectory with air resistance; the red line the trajectory without air resistance, i.e. in a vacuum; and the purple line the projectile’s kinetic energy, expressed as a percentage of its initial (this might be useful for hunters).
 
-### Graph Class
+*****************
+
+Graph Class
+-----------
 I actually wrote my own graph-drawing class for this project, mainly as a learning exercise to familiarise myself with the `<canvas>` element and its API. Unfortunately, I feel that the API still has a way to go. It lacks features that I would consider *basic*, such as the ability to measure the height of text (`measureText()` only reports the width) – which makes writing an adaptive layout engine slightly tricky!
 
 #### How it Works
 I may give a more detailed explanation, when I can find the time. But until then, the code in [/js/demo.js](https://github.com/SamChristy/trajectory.js/blob/master/js/demo.js) should, hopefully, be clear enough to see how it works.
 
 ##### Basic Usage
-*****************
+
 ###### Instantiate a new Graph Object
     var settings = {
         xAxis1: {  // Bottom axis
