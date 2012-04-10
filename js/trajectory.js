@@ -7,9 +7,7 @@
 /**
  * Approximate gravitational acceleration.
  */
-var g = 9.81;
-
-// TODO Write a function that measures the highest point, flight duration and distance of the arrow's trajectory.
+var gravity = 9.81;
 
 /**
  * Calculates the drag constant for an arrow that is used to compute its trajectory with
@@ -74,7 +72,7 @@ function trajectoryBounds(velocity, angle, height, bottom, k, dt){
 		
 		// Compute the change in X and Y position.
 		dx = vx * dt + 0.5 * ax * dtdt; 
-		dy = vy * dt + 0.5 * (ay - g) * dtdt;
+		dy = vy * dt + 0.5 * (ay - gravity) * dtdt;
 		
 		// Move the arrow.
 		distance += dx;
@@ -85,7 +83,7 @@ function trajectoryBounds(velocity, angle, height, bottom, k, dt){
 		
 		// Compute new X and Y velocities.
 		vx += ax * dt;
-		vy += (ay - g) * dt;
+		vy += (ay - gravity) * dt;
 		
 		// Compute new arrow flight angle.
 		angle = Math.atan2(dy, dx);
@@ -145,7 +143,7 @@ function arrowTrajectory(velocity, angle, height, k, duration, dt, plotCount){
 		
 		// Compute the change in X and Y position.
 		dx = vx * dt + 0.5 * ax * dtdt; 
-		dy = vy * dt + 0.5 * (ay - g) * dtdt;
+		dy = vy * dt + 0.5 * (ay - gravity) * dtdt;
 		
 		// Move the arrow.
 		distance += dx;
@@ -156,7 +154,7 @@ function arrowTrajectory(velocity, angle, height, k, duration, dt, plotCount){
 		
 		// Compute new X and Y velocities.
 		vx += ax * dt;
-		vy += (ay - g) * dt;
+		vy += (ay - gravity) * dt;
 		
 		// Compute new arrow flight angle.
 		angle = Math.atan2(dy, dx);
@@ -179,7 +177,7 @@ function arrowTrajectory(velocity, angle, height, k, duration, dt, plotCount){
 function vacFlightDistance(angle, velocity, height){
 	var vSinAngle = Math.sin(angle) * velocity;
 	
-	return (velocity * Math.cos(angle) / g) * (vSinAngle + Math.sqrt(vSinAngle * vSinAngle + 2 * g * height));
+	return (velocity * Math.cos(angle) / g) * (vSinAngle + Math.sqrt(vSinAngle * vSinAngle + 2 * gravity * height));
 }
 
 /**
@@ -192,7 +190,7 @@ function vacFlightDistance(angle, velocity, height){
 function vacFlightHeight(angle, velocity, height){
 	var sinAngle = Math.sin(angle);
 	
-	return (velocity * velocity * sinAngle * sinAngle) / (2 * g) + height;
+	return (velocity * velocity * sinAngle * sinAngle) / (2 * gravity) + height;
 }
 
 /**
@@ -205,7 +203,7 @@ function vacFlightHeight(angle, velocity, height){
 function vacFlightDuration(angle, velocity, height){
 	var vSinAngle = Math.sin(angle) * velocity;
 	
-	return (vSinAngle + Math.sqrt(vSinAngle * vSinAngle + 2 * g * height)) / g;
+	return (vSinAngle + Math.sqrt(vSinAngle * vSinAngle + 2 * gravity * height)) / gravity;
 }
 
 /**
@@ -232,7 +230,7 @@ function vacTrajectory(velocity, angle, height, bottom, plotCount){
 		
 		data[plot] = [
 			velocity * time * Math.cos(angle),
-			velocity * time * Math.sin(angle) - g / 2 * (time * time) + height
+			velocity * time * Math.sin(angle) - gravity / 2 * (time * time) + height
 		];
 	}
 	

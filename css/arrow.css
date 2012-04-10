@@ -11,6 +11,8 @@
 #control-panel fieldset{
 	float: left;
 	
+	overflow: hidden;
+	
 	padding: 0.75em;
 	margin: 0.5em;
 }
@@ -39,11 +41,24 @@
 label, input[type=button], input[type=submit], button{
 	cursor: pointer;
 }
-
 table{
 	font: 11pt Calibri;
 }
+th, td{
+	text-align: left;
+	padding: 0.2em 0.4em;
+}
+thead{
+	font: inherit;
+	font-size: 120%;
+}
 
-td{
-	padding: 0.2em 0.65em;
+td > input{
+	width: 8em;
+}
+tbody > tr > th{
+	text-align: right;
+}
+td > select{
+	width: 100%
 }

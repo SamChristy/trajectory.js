@@ -1,10 +1,10 @@
 /**
- * @author Sam Christy <sam_christy@hotmail.co.uk>
+ * @author 		Sam Christy <sam_christy@hotmail.co.uk>
+ * @licence     GNU GPL v3.0 <http://www.gnu.org/licenses/gpl-3.0.html>
+ * @copyright   Sam Christy 2012 | All rights reserved (c)
  */
 
-// The function should specify which axes the data is to be plotted on, so that the function has 
-// access to the .min and .max properties. Obviously one x axis and one y axis will need to be 
-// specified; the function can select the bottom x axis and left y axis by default.
+// TODO Consider adding a feature for drawing a legend, in the top, right-hand corner of the graph.
 
 // Data is given provided as a two-dimensional array, where the first value represents the x
 // cordinate and the second represents the y coordinate [x, y]. There is no real limit to the 
@@ -16,8 +16,6 @@
 //     [x2, y2],
 //     [x3, y3],
 // ];
-
-// XXX it may be a lot simpler to just pass the axes that the data plotting functions are using...
 
 /**
  * Draws the a line on the graph, using the coordinates specified by data.
@@ -47,6 +45,8 @@ Graph.prototype.plotData = function(data, colour, xAxis, yAxis, xIndex, yIndex){
 	if(typeof yIndex === "undefined") yIndex = 1;
 	
 	this._c.save();
+	
+	this._c.translate(this._plotArea.left, this._plotArea.top);
 	
 	this._c.beginPath();
 	
@@ -79,7 +79,6 @@ Graph.prototype.plotData = function(data, colour, xAxis, yAxis, xIndex, yIndex){
 	
 	this._c.stroke();
 	
-	// Let's clean up our mess...
 	this._c.restore();
 }
 
