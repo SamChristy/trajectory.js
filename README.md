@@ -23,49 +23,49 @@ I may give a more detailed explanation, when I can find the time. But until then
 *****************
 ###### Instantiate a new Graph Object
 ```javascript
-    // Disclaimer: I haven't actually tested this sample...
-    var settings = {
-        xAxis1: {  // Bottom axis
-    		min: 0,
-            max: 5,
-            title: "Distance (metres)",
-            auto: false
-        },
-        
-        yAxis1: {  // Left axis
-            min: 0,
-            max: 25,
-            title: "Height (metres)",
-            auto: false
-        },
+// Disclaimer: I haven't actually tested this sample...
+var settings = {
+    xAxis1: {  // Bottom axis
+		min: 0,
+        max: 5,
+        title: "Distance (metres)",
+        auto: false
+    },
+    
+    yAxis1: {  // Left axis
+        min: 0,
+        max: 25,
+        title: "Height (metres)",
+        auto: false
+    },
 
-        // To hide an axis, set its value to null.
-        xAxis2: null,
-        yAxis2: null
-    };
-    
-    var g = new Graph(settings, width, height);
-    
-    // Draw the Graph, so that it is ready for plotting.
-    g.draw();
+    // To hide an axis, set its value to null.
+    xAxis2: null,
+    yAxis2: null
+};
+
+var g = new Graph(settings, width, height);
+
+// Draw the Graph, so that it is ready for plotting.
+g.draw();
 ```
 ###### Plot Data
 ```javascript
-    // Plotting an asymptotic curve as an example.
-    var data = [
-        [0, 0],
-        [1, 1],
-        [2, 4],
-        [3, 9],
-        [4, 16],
-        [5, 25]
-    ];
-    
-    // Plot the curve, using a nice green colour.
-    g.plot(data, Graph.colours.green);
-    
-    // Finally, inset the Graph into the document, so that the user can see it.
-    g.appendTo(document.body);
+// Plotting an asymptotic curve as an example.
+var data = [
+    [0, 0],
+    [1, 1],
+    [2, 4],
+    [3, 9],
+    [4, 16],
+    [5, 25]
+];
+
+// Plot the curve, using a nice green colour.
+g.plot(data, Graph.colours.green);
+
+// Finally, inset the Graph into the document, so that the user can see it.
+g.appendTo(document.body);
 ```
 ### Licence
 All of the code (except for jQuery of course, which I've used in `demo.js`) is available under [GNU GPL v3.0](http://www.gnu.org/licenses/gpl-3.0.html) so feel free to use and modify it as you wish!
