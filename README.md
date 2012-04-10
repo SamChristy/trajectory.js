@@ -22,6 +22,7 @@ I may give a more detailed explanation, when I can find the time. But until then
 ##### Basic Usage
 *****************
 ###### Instantiate a new Graph Object
+    // I haven't actually tested this sample...
     var settings = {
         xAxis1: {  // Bottom axis
     		min: 0,
@@ -40,7 +41,7 @@ I may give a more detailed explanation, when I can find the time. But until then
         // To hide an axis, set its value to null.
         xAxis2: null,
         yAxis2: null
-    }
+    };
     
     var g = new Graph(settings, width, height);
     
