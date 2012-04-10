@@ -5,7 +5,7 @@
  */
 
 // With wind resitance:    Red
-// In a vacuum: 		   Blue
+// In a vacuum: 	   Blue
 // Kinetic energy:    	   Purple 
 
 $("#clear-graph").click(function(){
