@@ -23,20 +23,24 @@ I may give a more detailed explanation, when I can find the time. But until then
 *****************
 ###### Instantiate a new Graph Object
 ```javascript
-// Disclaimer: I haven't actually tested this sample...
+// Don't forget to include:
+//     - math.js
+//     - graph.js
+//     - settings.js
+//     - plot.js
+
+// Overide the default settings, to customise the Graph.
 var settings = {
     xAxis1: {  // Bottom axis
-		min: 0,
-        max: 5,
-        title: "Distance (metres)",
-        auto: false
+        min: 0,
+        max: 10,
+        title: "n",
     },
-    
+
     yAxis1: {  // Left axis
         min: 0,
-        max: 25,
-        title: "Height (metres)",
-        auto: false
+        max: 100,
+        title: "n\u00B2",
     },
 
     // To hide an axis, set its value to null.
@@ -44,11 +48,15 @@ var settings = {
     yAxis2: null
 };
 
-var g = new Graph(settings, width, height);
+var width = 500;
+var height = 300;
+
+var g = new Graph(width, height, settings);
 
 // Draw the Graph, so that it is ready for plotting.
 g.draw();
 ```
+
 ###### Plot Data
 ```javascript
 // Plotting an asymptotic curve as an example.
@@ -58,15 +66,21 @@ var data = [
     [2, 4],
     [3, 9],
     [4, 16],
-    [5, 25]
+    [5, 25],
+    [6, 36],
+    [7, 49],
+    [8, 64],
+    [9, 81],
+    [10, 100]
 ];
 
 // Plot the curve, using a nice green colour.
-g.plot(data, Graph.colours.green);
+g.plotData(data, Graph.colours.green);
 
 // Finally, inset the Graph into the document, so that the user can see it.
 g.appendTo(document.body);
 ```
+
 ### Licence
 All of the code (except for jQuery of course, which I've used in `demo.js`) is available under [GNU GPL v3.0](http://www.gnu.org/licenses/gpl-3.0.html) so feel free to use and modify it as you wish!
     
