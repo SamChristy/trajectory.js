@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Trajectory.js by SamChristy</title>
+    
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Trajectory.js</h1>
+        <p>A web application for computing and plotting (using the &lt;canvas&gt; element) the trajectories of subsonic projectiles, such as arrows and paintballs.</p>
+        <p class="view"><a href="https://github.com/SamChristy/trajectory.js">View the Project on GitHub <small>SamChristy/trajectory.js</small></a></p>
+        <ul>
+          <li><a href="https://github.com/SamChristy/trajectory.js/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/SamChristy/trajectory.js/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/SamChristy/trajectory.js">Fork On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Trajectory.js</h1>
+
+<h3>Demo</h3>
+
+<p>A demonstration of the program is available on my <a href="http://dl.dropbox.com/u/42030209/rough/arrow/demo.html">Dropbox account</a>. A modern browser that implements the HTML5 <code>&lt;canvas&gt;</code> element is, obviously, required – I personally recommend <a href="https://www.google.com/chrome">Google Chrome</a>. </p>
+
+<h3>Explanation</h3>
+
+<p>This program is designed to compute the trajectories of projectiles and generate graphs inside your browser! I created it as a weekend project to help me cheat at archery. It actually functions as a practical tool and I've found that it matches both the real-world data and the results of my 40# English longbow on the range quite well. It is also suitable for modelling other sub-sonic projectiles, such as tennis balls and air rifle pellets, providing that you know its drag coefficient (e.g. 0.5 for a sphere).</p>
+
+<h3>Instructions</h3>
+
+<p>To use the program, simply enter the projectile's parameters and click 'Plot Trajectory'. To generate a copy of your graph that can be saved, click ‘Generate PNG’. After the image pops up, you can save it by right-clicking it and selecting ‘Save As…’ (the exact phrase varies with different web browsers).</p>
+
+<p>I’ve put the default values to those of a 3/8” steel ball-bearing, shot at an angle of 5 degrees with an initial velocity of 80 metres/second, as an example. The blue line represents the trajectory with air resistance; the red line the trajectory without air resistance, i.e. in a vacuum; and the purple line the projectile’s kinetic energy, expressed as a percentage of its initial (this might be useful for hunters).</p>
+
+<h2>Graph Class</h2>
+
+<p>I actually wrote my own graph-drawing class for this project, mainly as a learning exercise to familiarise myself with the <code>&lt;canvas&gt;</code> element and its API. Unfortunately, I feel that the API still has a way to go. It lacks features that I would consider <em>basic</em>, such as the ability to measure the height of text (<code>measureText()</code> only reports the width) – which makes writing an adaptive layout engine slightly tricky!</p>
+
+<h4>How it Works</h4>
+
+<p>I may give a more detailed explanation, when I can find the time. But until then, the code in <code>/js/demo.js</code> should, hopefully, be clear enough to see how it works.</p>
+
+<h5>Basic Usage</h5>
+
+<h6>Instantiate a new Graph Object</h6>
+
+<div class="highlight">
+<pre><span class="c1">// Don't forget to include:</span>
+<span class="c1">//     - math.js</span>
+<span class="c1">//     - graph.js</span>
+<span class="c1">//     - settings.js</span>
+<span class="c1">//     - plot.js</span>
+
+<span class="c1">// Overide the default settings, to customise the Graph.</span>
+<span class="kd">var</span> <span class="nx">settings</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">xAxis1</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// Bottom axis</span>
+        <span class="nx">min</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nx">max</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="nx">title</span><span class="o">:</span> <span class="s2">"n"</span><span class="p">,</span>
+    <span class="p">},</span>
+
+    <span class="nx">yAxis1</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// Left axis</span>
+        <span class="nx">min</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nx">max</span><span class="o">:</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="nx">title</span><span class="o">:</span> <span class="s2">"n\u00B2"</span><span class="p">,</span>
+    <span class="p">},</span>
+
+    <span class="c1">// To hide an axis, set its value to null.</span>
+    <span class="nx">xAxis2</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="nx">yAxis2</span><span class="o">:</span> <span class="kc">null</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">width</span> <span class="o">=</span> <span class="mi">500</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">height</span> <span class="o">=</span> <span class="mi">300</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">g</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Graph</span><span class="p">(</span><span class="nx">width</span><span class="p">,</span> <span class="nx">height</span><span class="p">,</span> <span class="nx">settings</span><span class="p">);</span>
+
+<span class="c1">// Draw the Graph, so that it is ready for plotting.</span>
+<span class="nx">g</span><span class="p">.</span><span class="nx">draw</span><span class="p">();</span>
+</pre>
+</div>
+
+
+<h6>Plot Data</h6>
+
+<div class="highlight">
+<pre><span class="c1">// Plotting an asymptotic curve as an example.</span>
+<span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">16</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">36</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">49</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">64</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">81</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
+<span class="p">];</span>
+
+<span class="c1">// Plot the curve, using a nice green colour.</span>
+<span class="nx">g</span><span class="p">.</span><span class="nx">plotData</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">Graph</span><span class="p">.</span><span class="nx">colours</span><span class="p">.</span><span class="nx">green</span><span class="p">);</span>
+
+<span class="c1">// Finally, inset the Graph into the document, so that the user can see it.</span>
+<span class="nx">g</span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<h3>Licence</h3>
+
+<p>All of the code (except for jQuery of course, which I've used in <code>demo.js</code>) is available under <a href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL v3.0</a> so feel free to use and modify it as you wish!</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/SamChristy">SamChristy</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
