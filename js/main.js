@@ -4,9 +4,9 @@
  * @copyright   Sam Christy 2012 | All rights reserved (c)
  */
 
-// With wind resitance:    Red
-// In a vacuum: 	   Blue
-// Kinetic energy:    	   Purple 
+// Red: With wind resitance
+// Blue: In a vacuum
+// Purple: Kinetic energy
 
 $("#clear-graph").click(function(){
 	$("#graph-container > canvas").remove();
@@ -81,7 +81,7 @@ $("#plot-trajectory").click(function(){
 			title: "Kinetic Energy",
 
 			auto: false
-		},
+		}
 	};
 	
 	// Remove the graph, if it already exists.

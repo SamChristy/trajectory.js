@@ -36,17 +36,13 @@ the height of text (`measureText()` only reports the width) – which makes writ
 
 #### How it Works
 I may give a more detailed explanation, when I can find the time. But until then, the code in 
-`/js/demo.js` should, hopefully, be clear enough to see how it works.
+`/js/main.js` should, hopefully, be clear enough to see how it works.
 
 ##### Basic Usage
 *****************
 ###### Instantiate a new Graph Object
 ```javascript
-// Don't forget to include:
-//     - math.js
-//     - graph.js
-//     - settings.js
-//     - plot.js
+// Don't forget to include graph.js
 
 // Overide the default settings, to customise the Graph.
 var settings = {
@@ -101,7 +97,8 @@ g.appendTo(document.body);
 ```
 
 ### Licence
-All of the code (except for jQuery of course, which I've used in `demo.js`) is available under 
+All of the code (except for jQuery of course, which I've used in `main.js`) is available under 
 [GNU GPL v3.0](http://www.gnu.org/licenses/gpl-3.0.html) so feel free to use and modify it as you 
 wish!
-    
+
+© 2013 Sam Christy

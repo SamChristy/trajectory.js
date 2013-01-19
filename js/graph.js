@@ -32,8 +32,6 @@ function Graph(width, height, settings){
 	this._c = this._canvas.getContext("2d");
 }
 
-// Public methods
-
 /**
  * Creates an <img> element containing a copy of the graph in a PNG data URL format.
  */
@@ -201,14 +199,160 @@ Graph.prototype.clear = function(){
 	this._c.fillRect(0, 0, this._canvas.width, this._canvas.height);
 }
 
-// 'Private' methods - because JavaScript sucks...
+// Data is given provided as a two-dimensional array, where the first value represents the x
+// cordinate and the second represents the y coordinate [x, y]. There is no real limit to the 
+// number of rows; although more will generally result in a smoother plot.
+//
+// var data = [
+//     [x0, y0],
+//     [x1, y1],
+//     [x2, y2],
+//     [x3, y3],
+// ];
 
-// FIXME There are some situations where varying gridlines or ranges will cause 0 to missed. It will be a good idea to add an option for drawing gridlines on 0 in a different colour...
+/**
+ * Draws the a line on the graph, using the coordinates specified by data.
+ */
+Graph.prototype.plotData = function(data, colour, xAxis, yAxis, xIndex, yIndex){
+	// Choose the axes that the data is being plotted for, this will determine the scale used.
+	// 1 is for the primary axis, i.e. xAxis1 or yAxis1,
+	// 2 is for the secondary axis, xAxis2 or yAxis2.
+	if(typeof xAxis === "undefined" || xAxis === 1){
+		xMin = this._xAxis1.min;
+		xMax = this._xAxis1.max;
+	}
+	else{
+		xMin = this._xAxis2.min;
+		xMax = this._xAxis2.max;
+	}
+	if(typeof yAxis === "undefined" || yAxis === 1){
+		yMin = this._yAxis1.min;
+		yMax = this._yAxis1.max;
+	}
+	else{
+		yMin = this._yAxis2.min;
+		yMax = this._yAxis2.max;
+	}
+	
+	if(typeof xIndex === "undefined") xIndex = 0;
+	if(typeof yIndex === "undefined") yIndex = 1;
+	
+	this._c.save();
+	
+	this._c.translate(this._plotArea.left, this._plotArea.top);
+	
+	this._c.beginPath();
+	
+	// Clip the plot line to the plot area.
+	this._c.rect(1, 1, this._plotArea.width - 1, this._plotArea.height -1);
+	this._c.clip();
+	
+	this._c.lineCap = "round";
+	
+	this._c.lineWidth = this._plotLineWidth;
+	this._c.strokeStyle = colour;
+	
+	var xRange = xMax - xMin;
+	var yRange = yMax - yMin;
+
+	// Calculate the location of the first point in the plot line.
+	var px = ((data[0][xIndex] - xMin) / xRange) * this._plotArea.width;
+	var py = this._plotArea.height - ((data[0][yIndex] - yMin) / yRange) * this._plotArea.height;
+	
+	this._c.beginPath();
+	this._c.moveTo(px, py);
+	
+	for(var i = 1; i < data.length; i++){
+		px = ((data[i][0] - xMin) / xRange) * this._plotArea.width;
+		py = this._plotArea.height - ((data[i][yIndex] - yMin) / yRange) * this._plotArea.height;
+		
+		// Add the point to the plot line.
+		this._c.lineTo(px, py);
+	}
+	
+	this._c.stroke();
+	
+	this._c.restore();
+}
+
+/**
+ * Removes all of the lines from the plot area.
+ */
+Graph.prototype.clearPlotArea = function(){
+	this.clear();
+	this.draw();
+};
+
+Graph.defaultSettings = {
+	textColour: "#000",
+	backgroundColour: "#FFF",
+	
+	titleOffset: 10,
+	titleFont: "bold 14pt Calibri",
+	
+	tickLength: 5,
+	gridlineWidth: 1,
+	gridlineColour: "#777",
+		
+	xGridlineCount: 10,
+	yGridlineCount: 10,
+	
+	labelOffset: 10,
+	labelFont: "11pt Calibri",
+	
+	plotLineWidth: 2.25,
+	
+	plotArea: {
+		left: 80,
+		top: 30,
+		width: 700,
+		height: 350
+	},
+	
+	xAxis1: {   // bottom axis
+		min: 0,
+		max: 2.5,
+		precision: 15,
+		suffix: "",
+		title: "Distance (metres)",
+		
+		auto: true
+	},
+	
+	xAxis2: {}, // top axis
+	
+	yAxis1: {   // left axis
+		min: 0,
+		suffix: "",
+		precision: 15,
+		
+		auto: true
+	},
+	
+	yAxis2: {}
+};
+
+Graph.colours = {
+	blue:        "#4A7EBB",
+	green:       "#9BBB59",
+	orange:      "#DA8137",
+	purple:      "#7D60A0",
+	red:         "#BE4B48",
+	lightblue:   "#8EA5CB",
+	lightgreen:  "#B5CA92",
+	lightorange: "#F6B18A",
+	lightpurple: "#A597B9",
+	lightred:    "#CE8E8D",
+	gold: "#F6B915",
+	lightGold: "#f8d474"
+};
 
 /**
  * Draws the gridlines for the x axis. Ticks will be drawn for both axes, if there are two.
  */
 Graph.prototype._drawLinesX = function(numberOfLines, min, max, dualAxes){
+    // FIXME: There are some situations where varying gridlines or ranges will cause 0 to be missed. 
+    // It will be a good idea to add an option for drawing gridlines on 0 in a different colour...
 	var range = max - min;
 	var res = this._plotArea.width / range;
 	var lineLength = this._plotArea.height + this._tickLength + 1;
@@ -412,7 +556,6 @@ Graph._estimateTextHeight = function(font){
 	c.font = font;
 	
 	return c.measureText("e").width * 2;
-	//return c.measureText("m").width;
 }
 
 /**
@@ -452,4 +595,41 @@ Graph._determinePrecision = function(n, x, max){
 	}
 	
 	return max;
+}
+
+// Maths helper functions
+// degrees / π * 180
+// radians * π / 180
+
+/**
+ * Converts degress to radians.
+ * @param {float} degrees The angle in degrees.
+ * @return {float} The angle in radians.
+ */
+function deg2Rad(degrees){
+	return degrees * 0.017453292519943295;
+}
+
+/**
+ * Converts radians to degress.
+ * @param {float} radians The angle in radians.
+ * @return {float} The angle in degrees.
+ */
+function rad2Deg(radians){
+	return radians / 0.017453292519943295;
+}
+
+/**
+ * Finds the next multiple of factor, from n.
+ * e.g. nextMultiple(267, 50) => 300
+ * @param {float} n
+ * @param {int} factor
+ * @return {int}
+ */
+function nextMultiple(n, factor){
+	if(n % factor !== 0){
+        return n - n % factor + factor;
+	}
+	
+	return n;
 }
