@@ -142,11 +142,6 @@ function updateFlightStats(duration, distance, height, energy, precision) {
     document.getElementById("flight-distance").textContent = distance.toFixed(precision);
     document.getElementById("flight-height").textContent   = height.toFixed(precision);
     document.getElementById("kinetic-energy").textContent  = energy.toFixed(precision);
-	
-    //	$("#flight-duration").text(bounds.duration.toFixed(2));
-    //	$("#flight-distance").text(bounds.distance.toFixed(2));
-    //	$("#flight-height").text(bounds.height.toFixed(2));
-    //	$("#kinetic-energy").text(maxK.toFixed(2));
 };
 
 /**
