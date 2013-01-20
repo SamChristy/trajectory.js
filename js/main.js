@@ -8,13 +8,17 @@
 // Blue: In a vacuum
 // Purple: Kinetic energy
 
-$("#clear-graph").click(function(){
-	$("#graph-container > canvas").remove();
-});
+var clearGraphButton = document.getElementById("clear-graph");
+var graphContainer = document.getElementById("graph-container");
 
-$("#generate-image").click(generatePNG);
+clearGraphButton.addEventListener('click', function() {
+    graphContainer.innerHTML = "";
+}, false);
 
-function generatePNG(){
+var genImageButton = document.getElementById("generate-image");
+genImageButton.addEventListener('click', generatePNG, false);
+
+function generatePNG() {
 	if(typeof graph === "undefined"){
 		alert("You have to plot the trajectory first!");
 		return;
@@ -33,32 +37,31 @@ function generatePNG(){
 	w.document.title = "Generated PNG";
 }
 
-$("#plot-trajectory").click(function(){
-	// Get the projectile's input data.
-	var velocity = parseFloat($("#arrow-velocity").val());
-	var angle    = deg2Rad(parseFloat($("#arrow-angle").val()));
-	var height   = parseFloat($("#arrow-height").val());
-	var mass     = parseFloat($("#mass").val());
-	var diameter = parseFloat($("#shaft-diameter").val());
-	var dragCoef = parseFloat($("#drag-coefficient").val());
-	var density  = parseFloat($("#fluid-density").val());
-	gravity = parseFloat($("#gravity").val());
+var plotButton = document.getElementById("plot-trajectory");
+
+plotButton.addEventListener('click', plotTrajectory, false);
+
+/**
+ * Computes the trajectory and plots it on a graph.
+ */
+function plotTrajectory() {
+    var input = getInput();
 	
 	// Calculate the drag constant that will be used to compute the arrow's trajectory.
-	var k = dragConstant(mass, diameter, dragCoef, density);
+	var k = dragConstant(input.mass, input.diameter, input.dragCoef, input.density);
 	
 	// Compute the trajectory using the input parameters.
-	var trajectoryInVacuum = vacTrajectory(velocity, angle, height);
+	var trajectoryInVacuum = vacTrajectory(input.velocity, input.angle, input.height);
 	
 	// Calculate the real trajectory's duration, distance and max height.
-	var bounds = trajectoryBounds(velocity, angle, height, 0, k);
+	var bounds = trajectoryBounds(input.velocity, input.angle, input.height, 0, k);
 	
 	// Compute the real trajectory, using the precomputed duration.
-	var trajectory = arrowTrajectory(velocity, angle, height, k, bounds.duration);
+	var trajectory = arrowTrajectory(input.velocity, input.angle, input.height, k, bounds.duration);
 	
 	var settings = {
-		xGridlineCount: parseInt($("#gridlines-x").val()),
-		yGridlineCount: parseInt($("#gridlines-y").val()),
+		xGridlineCount: 10,
+		yGridlineCount: 10,
 		
 		xAxis1: {
 			min: 0,
@@ -85,21 +88,20 @@ $("#plot-trajectory").click(function(){
 	};
 	
 	// Remove the graph, if it already exists.
-	$("#graph-container > canvas").remove();
+	graphContainer.innerHTML = "";
 	
 	graph = new Graph(835, 500, settings);
 	graph.draw();
-	graph.appendTo($("#graph-container")[0]);
-	
+	graph.appendTo(graphContainer);
 	
 	// Replace each velocity value with its kinetic energy, then convert it to a percentage of the
 	// initial kinetic energy.
-	var maxK = 0.0005 * mass * velocity * velocity;
+	var maxK = 0.0005 * input.mass * input.velocity * input.velocity;
 	
 	for(var i = 0; i < trajectory.length; i++){
 		var v = trajectory[i][2];
 		
-		trajectory[i][2] = (0.0005 * mass * v * v) * 100 / maxK;
+		trajectory[i][2] = (0.0005 * input.mass * v * v) * 100 / maxK;
 	}
 
 	// Plot the kinetic energy.
@@ -108,10 +110,47 @@ $("#plot-trajectory").click(function(){
 	// Plot the trajectories on the graph.
 	graph.plotData(trajectoryInVacuum, Graph.colours.red);
 	graph.plotData(trajectory, Graph.colours.blue);
+    
+    updateFlightStats(bounds.duration, bounds.distance, bounds.height, maxK);
+}
+
+/**
+ * Get the projectile's input data.
+ */
+function getInput() {
+    var input = {
+        "velocity" : parseFloat(document.getElementById("velocity").value),
+        "angle"    : deg2Rad(parseFloat(document.getElementById("angle").value)),
+        "height"   : parseFloat(document.getElementById("height").value),
+        "mass"     : parseFloat(document.getElementById("mass").value),
+        "diameter" : parseFloat(document.getElementById("diameter").value),
+        "dragCoef" : parseFloat(document.getElementById("drag-coefficient").value),
+        "density"  : parseFloat(document.getElementById("fluid-density").value)
+    }
+    
+    // gravity is defined globally, as it is also used by `trajectory.js`.
+    gravity = parseFloat(document.getElementById("gravity").value);
+    
+    return input;
+}
+
+function updateFlightStats(duration, distance, height, energy, precision) {
+    if (typeof precision === "undefined")
+        precision = 2;
+    
+    document.getElementById("flight-duration").textContent = duration.toFixed(precision);
+    document.getElementById("flight-distance").textContent = distance.toFixed(precision);
+    document.getElementById("flight-height").textContent   = height.toFixed(precision);
+    document.getElementById("kinetic-energy").textContent  = energy.toFixed(precision);
 	
-	// Finally print the stats of the flight.
-	$("#flight-duration").text(bounds.duration.toFixed(2));
-	$("#flight-distance").text(bounds.distance.toFixed(2));
-	$("#flight-height").text(bounds.height.toFixed(2));
-	$("#kinetic-energy").text(maxK.toFixed(2));
-});
+    //	$("#flight-duration").text(bounds.duration.toFixed(2));
+    //	$("#flight-distance").text(bounds.distance.toFixed(2));
+    //	$("#flight-height").text(bounds.height.toFixed(2));
+    //	$("#kinetic-energy").text(maxK.toFixed(2));
+};
+
+/**
+ * Validates all of the fields, to ensure that they contain sensible values (all fields are 
+ * required).
+ */
+function validateFields() {}

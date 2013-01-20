@@ -11,11 +11,11 @@
 		<div id="control-panel">
 			<fieldset>
 				<legend>Projectile Data</legend>
-				<label>Velocity (m/s)<input id="arrow-velocity" value="80" /></label>
-				<label>Angle (&deg;)<input id="arrow-angle" value="5" /></label>
-				<label>Height (m)<input id="arrow-height" value="1.6"></label>
+				<label>Velocity (m/s)<input id="velocity" value="80" /></label>
+				<label>Angle (&deg;)<input id="angle" value="5" /></label>
+				<label>Height (m)<input id="height" value="1.6"></label>
 				<label>Mass (g)<input id="mass" value="3.5" /></label>
-				<label>Diameter (mm)<input id="shaft-diameter" value="9.525" /></label>
+				<label>Diameter (mm)<input id="diameter" value="9.525" /></label>
 				<label>Drag Coefficient<input id="drag-coefficient" value="0.5" /></label>
 				<label>Gravitational Acceleration<input id="gravity" value="9.81" /></label>
 				<label>Fluid Density (kg/m&sup3;)<input id="fluid-density" value="1.29" /></label>
@@ -66,14 +66,12 @@
 			</tbody>
 		</table>
 		
-		<!-- Using jQuery because I'm lazy! -->
-		<script src="js/jquery-1.7.2.min.js"></script>
 		<script src="js/graph.js"></script>
 		<script src="js/trajectory.js"></script>
 		<script src="js/main.js"></script>
 		
 		<script>
-			$("#plot-trajectory").click();
+			plotTrajectory();
 		</script>
 	</body>
 </html>

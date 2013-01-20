@@ -9,18 +9,18 @@ A modern browser that implements the HTML5 `<canvas>` element is, obviously, req
 ### Explanation
 This program is designed to compute the trajectories of projectiles and generate graphs inside your 
 browser! I created it as a weekend project to help me cheat at archery. It actually functions as a 
-practical tool and I've found that it matches both the real-world data and the results of my 40# 
+practical tool and I’ve found that it matches both the real-world data and the results of my 40# 
 English longbow on the range quite well. It is also suitable for modelling other sub-sonic 
 projectiles, such as tennis balls and air rifle pellets, providing that you know its drag 
 coefficient (e.g. 0.5 for a sphere).
 
 ### Instructions
-To use the program, simply enter the projectile's parameters and click 'Plot Trajectory'. To 
+To use the program, simply enter the projectile’s parameters and click ‘Plot Trajectory’. To 
 generate a copy of your graph that can be saved, click ‘Generate PNG’. After the image pops up, 
 you can save it by right-clicking it and selecting ‘Save As…’ (the exact phrase varies with 
 different web browsers).
 
-I’ve put the default values to those of a 3/8” steel ball-bearing, shot at an angle of 5 degrees 
+I’ve put the default values to those of a 3/8" steel ball-bearing, shot at an angle of 5 degrees 
 with an initial velocity of 80 metres/second, as an example. The blue line represents the trajectory 
 with air resistance; the red line the trajectory without air resistance, i.e. in a vacuum; and the 
 purple line the projectile’s kinetic energy, expressed as a percentage of its initial (this might be
@@ -42,7 +42,7 @@ I may give a more detailed explanation, when I can find the time. But until then
 *****************
 ###### Instantiate a new Graph Object
 ```javascript
-// Don't forget to include graph.js
+// Don’t forget to include graph.js
 
 // Overide the default settings, to customise the Graph.
 var settings = {
@@ -97,8 +97,7 @@ g.appendTo(document.body);
 ```
 
 ### Licence
-All of the code (except for jQuery of course, which I've used in `main.js`) is available under 
-[GNU GPL v3.0](http://www.gnu.org/licenses/gpl-3.0.html) so feel free to use and modify it as you 
-wish!
+All of the code is available under [GNU GPL v3.0](http://www.gnu.org/licenses/gpl-3.0.html) so feel 
+free to use and modify it as you wish!
 
 © 2013 Sam Christy
