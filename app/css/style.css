@@ -1,0 +1,75 @@
+#control-panel {
+    position: absolute;
+    left: 850px;
+    top : 25px;
+
+    width: auto;
+
+    font: 12pt Calibri, Arial, Helvetica, sans-serif;
+}
+
+#control-panel fieldset {
+    float: left;
+
+    overflow: hidden;
+
+    padding: 0.75em;
+    margin: 0.5em;
+}
+
+#control-panel legend {
+    font-weight: bold;
+    font-size: 120%;
+}
+
+#control-panel label {
+    font-size: 10.5pt;
+
+    margin: 0;
+}
+
+#control-panel input, #control-panel select {
+    display: block;
+    margin: 0.25em 0 0.4em 0;
+
+    font:inherit;
+    font-size: 12pt;
+}
+
+#control-panel input[type="checkbox"], input[type="radio"] {
+    display: inline;
+}
+
+#control-panel input[type="button"] {
+    margin: 0.75em 0 0 0;
+}
+
+label, input[type=button], input[type=submit], button {
+    cursor: pointer;
+}
+
+table {
+    font: 11pt Calibri;
+}
+
+th, td {
+    text-align: left;
+    padding: 0.2em 0.4em;
+}
+
+thead {
+    font: inherit;
+    font-size: 120%;
+}
+
+td > input {
+    width: 8em;
+}
+
+td > select {
+    width: 100%
+}
+
+.unit {
+    font-style: italic;
+}
