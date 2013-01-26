@@ -57,7 +57,10 @@ function plotTrajectory() {
 	var bounds = trajectoryBounds(input.velocity, input.angle, input.height, 0, k);
 	
 	// Compute the real trajectory, using the precomputed duration.
-	var trajectory = arrowTrajectory(input.velocity, input.angle, input.height, k, bounds.duration);
+	var trajectory = arrowTrajectory(input.velocity, input.angle, input.mass, input.height, k, 
+        bounds.duration);
+    
+	var initialKineticEnergy = 0.0005 * input.mass * input.velocity * input.velocity;
 	
 	var settings = {
 		xGridlineCount: 10,
@@ -94,16 +97,6 @@ function plotTrajectory() {
 	graph.draw();
 	graph.appendTo(graphContainer);
 	
-	// Replace each velocity value with its kinetic energy, then convert it to a percentage of the
-	// initial kinetic energy.
-	var maxK = 0.0005 * input.mass * input.velocity * input.velocity;
-	
-	for(var i = 0; i < trajectory.length; i++){
-		var v = trajectory[i][2];
-		
-		trajectory[i][2] = (0.0005 * input.mass * v * v) * 100 / maxK;
-	}
-
 	// Plot the kinetic energy.
 	graph.plotData(trajectory, Graph.colours.purple, 1, 2, 0, 2);
 	
@@ -111,7 +104,7 @@ function plotTrajectory() {
 	graph.plotData(trajectoryInVacuum, Graph.colours.red);
 	graph.plotData(trajectory, Graph.colours.blue);
     
-    updateFlightStats(bounds.duration, bounds.distance, bounds.height, maxK);
+    updateFlightStats(bounds.duration, bounds.distance, bounds.height, initialKineticEnergy);
 }
 
 /**

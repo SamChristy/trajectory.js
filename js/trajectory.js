@@ -103,14 +103,15 @@ function trajectoryBounds(velocity, angle, height, bottom, k, dt){
  * Computes the trajectory of an arrow with air resistance.
  * 
  * @param {float} velocity    The arrow's initial horizontal velocity (metres / second).
- * @param {float} angle	      The arrow's initial angle (radians).
+ * @param {float} angle       The arrow's initial angle (radians).
+ * @param {float} mass        The mass of the projectile.
  * @param {float} [height]    The arrow's initial height (metres).
  * @param {float} [k]         The drag equation constant for the arrow.
  * @param {int}   [dt]        The time interval for calculations (seconds).
  * @param {int}   [plotCount]
  * @return {array}
  */
-function arrowTrajectory(velocity, angle, height, k, duration, dt, plotCount){
+function arrowTrajectory(velocity, angle, mass, height, k, duration, dt, plotCount){
 	// Default arguments...
 	if(typeof height === "undefined") height = 0;
 	if(!k) k = 0.0037;
@@ -130,8 +131,8 @@ function arrowTrajectory(velocity, angle, height, k, duration, dt, plotCount){
 	var ax;   // Horizontal deceleration due to air resistance.
 	var ay;	  // Vertical deceleration due to air resistance and gravity.
 	
-	
-	data[0] = [distance, height, velocity];
+	var initialKineticEnergy = (0.0005 * mass * velocity * velocity)
+	data[0] = [distance, height, 100];
 	
 	for(var t = 0, plot = 1; t <= duration, plot < plotCount; t += dt){
 		// Compute drag from initial velocity.
@@ -158,9 +159,12 @@ function arrowTrajectory(velocity, angle, height, k, duration, dt, plotCount){
 		
 		// Compute new arrow flight angle.
 		angle = Math.atan2(dy, dx);
+        
+        // Calculate the kinetic energy as a percentage of its initial value.
+        var retainedKineticEnergy = (0.0005 * mass * velocity * velocity) * 100 / initialKineticEnergy;
 		
 		if(Math.floor(t / duration * plotCount) > plot){
-			data[plot] = [distance, height, velocity];
+			data[plot] = [distance, height, retainedKineticEnergy];
 			plot++;
 		}
 	}
