@@ -133,7 +133,7 @@ function arrowTrajectory(velocity, angle, height, k, duration, dt, plotCount){
 	
 	data[0] = [distance, height, velocity];
 	
-	for(var t = 0, plot = 1; t <= duration, plot < plotCount; t += dt){
+	for(var t = 0, plot = 1; plot < plotCount; t += dt){
 		// Compute drag from initial velocity.
 		a = -k * velocity * velocity;
 		
