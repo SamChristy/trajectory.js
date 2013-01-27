@@ -4,6 +4,9 @@
  * @copyright   Sam Christy 2012 | All rights reserved (c)
  */
 
+// TODO Make the UI scale to different resolutions and optimise the controls for
+//      tablet and mobile devices.
+
 // Red: With wind resitance
 // Blue: In a vacuum
 // Purple: Kinetic energy
@@ -122,6 +125,8 @@ function plotTrajectory() {
  * Get the projectile's input data.
  */
 function getInput() {
+    // TODO Add alternative unit options (Metric/Imperial) to the UI and handle
+    //      the conversions here.
     var input = {
         "velocity" : parseFloat(document.getElementById("velocity").value),
         "angle"    : deg2Rad(parseFloat(document.getElementById("angle").value)),
@@ -147,6 +152,9 @@ function updateFlightStats(duration, distance, height, energy, precision) {
     document.getElementById("flight-height").textContent   = height.toFixed(precision);
     document.getElementById("kinetic-energy").textContent  = energy.toFixed(precision);
 };
+
+// TODO: Write validation functions for the input and validate input before
+//       performing calculations.
 
 /**
  * Validates all of the fields, to ensure that they contain sensible values (all fields are 
