@@ -3,6 +3,9 @@
  * @licence     GNU GPL v3.0 <http://www.gnu.org/licenses/gpl-3.0.html>
  * @copyright   Sam Christy 2012 | All rights reserved (c)
  */
+
+// TODO: See if it possible to increase performance by splitting some of this work up...
+
 importScripts('trajectory.js')
 
 onmessage = function(e) {

@@ -53,11 +53,11 @@ function plotTrajectory() {
 	
     console.time('trajectory');
     
+    // TODO: Fix any potential race conditions introduced by multiple threads.
     var worker = new Worker('js/worker.js');
     worker.postMessage(input);
     
     worker.onmessage = function(e) {
-        // var k = e.data.k
         var trajectoryInVacuum = e.data.trajectoryInVacuum;
         var bounds = e.data.bounds;
         var trajectory = e.data.trajectory;
