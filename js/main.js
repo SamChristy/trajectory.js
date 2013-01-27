@@ -38,8 +38,12 @@ function generatePNG() {
 }
 
 var plotButton = document.getElementById("plot-trajectory");
-
 plotButton.addEventListener('click', plotTrajectory, false);
+
+window.addEventListener('keypress', function(e) {
+    if (e.which == 13)  // Enter
+        plotTrajectory();
+}, false);
 
 /**
  * Computes the trajectory and plots it on a graph.
