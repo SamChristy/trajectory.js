@@ -53,21 +53,26 @@ function plotTrajectory() {
 	
     console.time('trajectory');
     
-	// Calculate the drag constant that will be used to compute the arrow's trajectory.
-	var k = dragConstant(input.mass, input.diameter, input.dragCoef, input.density);
-	// Compute the trajectory using the input parameters.
-	var trajectoryInVacuum = vacTrajectory(input.velocity, input.angle, input.height);
-	// Calculate the real trajectory's duration, distance and max height.
-	var bounds = trajectoryBounds(input.velocity, input.angle, input.height, 0, k);
-	// Compute the real trajectory, using the precomputed duration.
-	var trajectory = arrowTrajectory(input.velocity, input.angle, input.mass, input.height, k, 
-        bounds.duration);
-        
-    console.timeEnd('trajectory');
+    var worker = new Worker('js/worker.js');
+    worker.postMessage(input);
     
-	var initialKineticEnergy = 0.0005 * input.mass * input.velocity * input.velocity;
-	
-	var settings = {
+    worker.onmessage = function(e) {
+        // var k = e.data.k
+        var trajectoryInVacuum = e.data.trajectoryInVacuum;
+        var bounds = e.data.bounds;
+        var trajectory = e.data.trajectory;
+        worker.terminate();
+        
+        console.timeEnd('trajectory');
+    
+        var initialKineticEnergy = 0.0005 * input.mass * input.velocity * input.velocity;
+        renderGraph(trajectory, trajectoryInVacuum, bounds);
+        updateFlightStats(bounds.duration, bounds.distance, bounds.height, initialKineticEnergy);
+    }
+}
+
+function renderGraph(trajectory, trajectoryInVacuum, bounds) {
+    var settings = {
 		xGridlineCount: 10,
 		yGridlineCount: 10,
 		
@@ -112,15 +117,15 @@ function plotTrajectory() {
 	graph.plotData(trajectory, Graph.colours.blue);
     
     console.timeEnd('graph');
-    
-    updateFlightStats(bounds.duration, bounds.distance, bounds.height, initialKineticEnergy);
 }
+
 
 /**
  * Get the projectile's input data.
  */
 function getInput() {
     var input = {
+        "gravity"  : parseFloat(document.getElementById("gravity").value),
         "velocity" : parseFloat(document.getElementById("velocity").value),
         "angle"    : deg2Rad(parseFloat(document.getElementById("angle").value)),
         "height"   : parseFloat(document.getElementById("height").value),
@@ -129,9 +134,6 @@ function getInput() {
         "dragCoef" : parseFloat(document.getElementById("drag-coefficient").value),
         "density"  : parseFloat(document.getElementById("fluid-density").value)
     }
-    
-    // gravity is defined globally, as it is also used by `trajectory.js`.
-    gravity = parseFloat(document.getElementById("gravity").value);
     
     return input;
 }
