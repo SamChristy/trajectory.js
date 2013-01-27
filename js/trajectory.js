@@ -134,7 +134,7 @@ function arrowTrajectory(velocity, angle, mass, height, k, duration, dt, plotCou
 	var initialKineticEnergy = (0.0005 * mass * velocity * velocity)
 	data[0] = [distance, height, 100];
 	
-	for(var t = 0, plot = 1; t <= duration, plot < plotCount; t += dt){
+	for(var t = 0, plot = 1; plot < plotCount; t += dt){
 		// Compute drag from initial velocity.
 		a = -k * velocity * velocity;
 		
