@@ -47,18 +47,19 @@ plotButton.addEventListener('click', plotTrajectory, false);
 function plotTrajectory() {
     var input = getInput();
 	
+    console.time('trajectory');
+    
 	// Calculate the drag constant that will be used to compute the arrow's trajectory.
 	var k = dragConstant(input.mass, input.diameter, input.dragCoef, input.density);
-	
 	// Compute the trajectory using the input parameters.
 	var trajectoryInVacuum = vacTrajectory(input.velocity, input.angle, input.height);
-	
 	// Calculate the real trajectory's duration, distance and max height.
 	var bounds = trajectoryBounds(input.velocity, input.angle, input.height, 0, k);
-	
 	// Compute the real trajectory, using the precomputed duration.
 	var trajectory = arrowTrajectory(input.velocity, input.angle, input.mass, input.height, k, 
         bounds.duration);
+        
+    console.timeEnd('trajectory');
     
 	var initialKineticEnergy = 0.0005 * input.mass * input.velocity * input.velocity;
 	
@@ -90,10 +91,12 @@ function plotTrajectory() {
 		}
 	};
 	
+    console.time('graph');
+    
 	// Remove the graph, if it already exists.
 	graphContainer.innerHTML = "";
 	
-	graph = new Graph(835, 500, settings);
+	var graph = new Graph(835, 500, settings);
 	graph.draw();
 	graph.appendTo(graphContainer);
 	
@@ -103,6 +106,8 @@ function plotTrajectory() {
 	// Plot the trajectories on the graph.
 	graph.plotData(trajectoryInVacuum, Graph.colours.red);
 	graph.plotData(trajectory, Graph.colours.blue);
+    
+    console.timeEnd('graph');
     
     updateFlightStats(bounds.duration, bounds.distance, bounds.height, initialKineticEnergy);
 }
