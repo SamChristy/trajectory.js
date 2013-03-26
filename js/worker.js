@@ -25,7 +25,7 @@ onmessage = function(e) {
     
     // Compute the real trajectory, using the precomputed flight duration.
     returnData.trajectory = trajectory(input.gravity, input.velocity, input.angle, input.mass, 
-        input.height, returnData.k, returnData.bounds.duration);
+        input.height, returnData.k, returnData.bounds.distance);
     
     postMessage(returnData);
 }
