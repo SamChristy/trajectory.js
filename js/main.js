@@ -8,15 +8,40 @@
 // Blue: In a vacuum
 // Purple: Kinetic energy
 
-var clearGraphButton = document.getElementById("clear-graph");
 var graphContainer = document.getElementById("graph-container");
+var genImageButton = document.getElementById("generate-image");
+var plotButton = document.getElementById("plot-trajectory");
+var cancelButton = document.getElementById("cancel");
 
-clearGraphButton.addEventListener('click', function() {
-    graphContainer.innerHTML = "";
+genImageButton.addEventListener('click', generatePNG, false);
+plotButton.addEventListener('click', plotTrajectory, false);
+cancelButton.style.display = 'none';
+cancelButton.addEventListener('click', abort, false);
+
+window.addEventListener('keypress', function(e) {
+    if (e.which == 13)  // Enter
+        plotTrajectory();
 }, false);
 
-var genImageButton = document.getElementById("generate-image");
-genImageButton.addEventListener('click', generatePNG, false);
+/**
+ * Terminates the trajectory computation background thread.
+ */
+function abort() {
+    if (typeof worker !== 'undefined') {
+        worker.terminate();
+        swapElements(cancelButton, plotButton);
+    }
+}
+
+/**
+ * Temporarily swaps the elements by setting their CSS display values.
+ * @param {object} e1 The element to be hidden.
+ * @param {object} e2 The hidden element, that will appear in the other's place.
+ */
+function swapElements(e1, e2) {
+    e1.style.display = 'none';
+    e2.style.display = '';
+}
 
 function generatePNG() {
 	if(typeof graph === "undefined"){
@@ -37,24 +62,21 @@ function generatePNG() {
 	w.document.title = "Generated PNG";
 }
 
-var plotButton = document.getElementById("plot-trajectory");
-plotButton.addEventListener('click', plotTrajectory, false);
-
-window.addEventListener('keypress', function(e) {
-    if (e.which == 13)  // Enter
-        plotTrajectory();
-}, false);
-
 /**
  * Computes the trajectory and plots it on a graph.
  */
 function plotTrajectory() {
+    swapElements(plotButton, cancelButton);
+    
     var input = getInput();
 	
     console.time('trajectory');
     
-    // TODO: Fix any potential race conditions introduced by multiple threads.
-    var worker = new Worker('js/worker.js');
+    if (typeof worker !== 'undefined') {
+        worker.terminate();
+    }
+    
+    worker = new Worker('js/worker.js');
     worker.postMessage(input);
     
     worker.onmessage = function(e) {
@@ -68,6 +90,8 @@ function plotTrajectory() {
         var initialKineticEnergy = 0.0005 * input.mass * input.velocity * input.velocity;
         renderGraph(trajectory, trajectoryInVacuum, bounds);
         updateFlightStats(bounds.duration, bounds.distance, bounds.height, initialKineticEnergy);
+        
+        swapElements(cancelButton, plotButton);
     }
 }
 
