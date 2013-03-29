@@ -69,8 +69,6 @@ function plotTrajectory() {
     swapElements(plotButton, cancelButton);
     
     var input = getInput();
-	
-    console.time('trajectory');
     
     if (typeof worker !== 'undefined') {
         worker.terminate();
@@ -85,8 +83,6 @@ function plotTrajectory() {
         var trajectory = e.data.trajectory;
         worker.terminate();
         
-        console.timeEnd('trajectory');
-    
         var initialKineticEnergy = 0.0005 * input.mass * input.velocity * input.velocity;
         renderGraph(trajectory, trajectoryInVacuum, bounds);
         updateFlightStats(bounds.duration, bounds.distance, bounds.height, initialKineticEnergy);
@@ -124,8 +120,6 @@ function renderGraph(trajectory, trajectoryInVacuum, bounds) {
 		}
 	};
 	
-    console.time('graph');
-    
 	// Remove the graph, if it already exists.
 	graphContainer.innerHTML = "";
 	
@@ -139,8 +133,6 @@ function renderGraph(trajectory, trajectoryInVacuum, bounds) {
 	// Plot the trajectories on the graph.
 	graph.plotData(trajectoryInVacuum, Graph.colours.red);
 	graph.plotData(trajectory, Graph.colours.blue);
-    
-    console.timeEnd('graph');
 }
 
 
