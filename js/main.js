@@ -129,7 +129,7 @@ function renderGraph(trajectory, trajectoryInVacuum, bounds) {
 	// Remove the graph, if it already exists.
 	graphContainer.innerHTML = "";
 	
-	var graph = new Graph(835, 500, settings);
+	graph = new Graph(835, 500, settings);
 	graph.draw();
 	graph.appendTo(graphContainer);
 	
