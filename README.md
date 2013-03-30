@@ -26,6 +26,13 @@ with air resistance; the red line the trajectory without air resistance, i.e. in
 purple line the projectile’s kinetic energy, expressed as a percentage of its initial (this might be
  useful for hunters).
 
+#### Supported Browsers ####
+- Chrome (4+)
+- Safari (5+)
+- Opera (10.6+)
+- Firefox (3.5+)
+- Internet Explorer (10+)
+
 Graph Class
 -----------
 I actually wrote my own graph-drawing class for this project, mainly as a learning exercise to 
