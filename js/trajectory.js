@@ -111,11 +111,10 @@ function trajectoryBounds(g, velocity, angle, height, bottom, k, dt){
  * @param {int}   [plotCount]
  * @return {array}
  */
-function trajectory(g, velocity, angle, mass, height, k, duration, dt, plotCount){
+function trajectory(g, velocity, angle, mass, height, k, finalDistance, dt, plotCount){
 	// Default arguments...
 	if(typeof height === "undefined") height = 0;
 	if(!k) k = 0.0037;
-	if(!duration) duration = 2;
 	if(!dt) dt = 0.001;
 	if(!plotCount) plotCount = 100;
 	
@@ -163,7 +162,7 @@ function trajectory(g, velocity, angle, mass, height, k, duration, dt, plotCount
         // Calculate the kinetic energy as a percentage of its initial value.
         var retainedKineticEnergy = (0.0005 * mass * velocity * velocity) * 100 / initialKineticEnergy;
 		
-		if(Math.floor(t / duration * plotCount) > plot){
+		if(Math.floor(distance / finalDistance * plotCount) > plot){
 			data[plot] = [distance, height, retainedKineticEnergy];
 			plot++;
 		}
