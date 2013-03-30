@@ -36,7 +36,7 @@ function generatePNG() {
 		+ ",modal=yes"
 	);
 
-	w.document.body.appendChild(png);
+	w.document.body.innerHTML = "<img src='" + png.src + "'>";
 	w.document.title = "Generated PNG";
 }
 
