@@ -1,10 +1,18 @@
 Trajectory.js
 =============
 
-### Demo
-A demonstration of the program is available on my [Dropbox account](http://dl.dropbox.com/u/42030209/rough/arrow/demo.html). 
-A modern browser that implements the HTML5 `<canvas>` element is, obviously, required – I personally
- recommend [Google Chrome](https://www.google.com/chrome). 
+### Live Demo
+- [Version 1.1+](http://samchristy.github.com/trajectory.js/app/v1.1+/) (optimised for tablets)
+- [Version 1.1](http://samchristy.github.com/trajectory.js/app/v1.1/)
+- [Version 1.0](http://samchristy.github.com/trajectory.js/app/v1.0/) (single-threaded, for IE9 users)
+
+#### Supported Browsers
+The following browsers are supported (according to [caniuse.com](http://caniuse.com/)):
+- Chrome (4+)
+- Safari (5+)
+- Opera (10.6+)
+- Firefox (3.5+)
+- Internet Explorer (10+)
 
 ### Explanation
 This program is designed to compute the trajectories of projectiles and generate graphs inside your 
@@ -21,17 +29,10 @@ you can save it by right-clicking it and selecting ‘Save As…’ (the exact p
 different web browsers).
 
 I’ve put the default values to those of a 3/8" steel ball-bearing, shot at an angle of 5 degrees 
-with an initial velocity of 80 metres/second, as an example. The blue line represents the trajectory 
+with an initial velocity of 85 metres/second, as an example. The blue line represents the trajectory 
 with air resistance; the red line the trajectory without air resistance, i.e. in a vacuum; and the 
 purple line the projectile’s kinetic energy, expressed as a percentage of its initial (this might be
  useful for hunters).
-
-#### Supported Browsers ####
-- Chrome (4+)
-- Safari (5+)
-- Opera (10.6+)
-- Firefox (3.5+)
-- Internet Explorer (10+)
 
 Graph Class
 -----------
