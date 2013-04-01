@@ -288,7 +288,7 @@ Graph.defaultSettings = {
 	backgroundColour: "#FFF",
 	
 	titleOffset: 10,
-	titleFont: "bold 14pt Calibri",
+	titleFont: "bold 14pt sans-serif",
 	
 	tickLength: 5,
 	gridlineWidth: 1,
@@ -298,7 +298,7 @@ Graph.defaultSettings = {
 	yGridlineCount: 10,
 	
 	labelOffset: 10,
-	labelFont: "11pt Calibri",
+	labelFont: "11pt sans-serif",
 	
 	plotLineWidth: 2.25,
 	
@@ -343,15 +343,16 @@ Graph.colours = {
 	lightorange: "#F6B18A",
 	lightpurple: "#A597B9",
 	lightred:    "#CE8E8D",
-	gold: "#F6B915",
-	lightGold: "#f8d474"
+	gold:        "#F6B915",
+	lightGold:   "#f8d474"
 };
 
 /**
  * Draws the gridlines for the x axis. Ticks will be drawn for both axes, if there are two.
  */
 Graph.prototype._drawLinesX = function(numberOfLines, min, max, dualAxes){
-    // FIXME: There are some situations where varying gridlines or ranges will cause 0 to be missed. 
+    // FIXME: There are some situations where varying gridlines or ranges will cause 0 to be missed.
+    // (This is not a problem for graphs that have no negative values.)
     // It will be a good idea to add an option for drawing gridlines on 0 in a different colour...
 	var range = max - min;
 	var res = this._plotArea.width / range;
@@ -476,6 +477,7 @@ Graph.prototype._drawTitle = function(text, position){
 	
 	this._c.textAlign = "center";
 	
+    // TODO Consider evening out the title offsets, to make them look neater.
 	switch(position){
 		case "top":
 			px = Math.round(this._canvas.width / 2);
@@ -625,6 +627,7 @@ function rad2Deg(radians){
  * @param {float} n
  * @param {int} factor
  * @return {int}
+ * @todo Use this function - why did I write it?
  */
 function nextMultiple(n, factor){
 	if(n % factor !== 0){

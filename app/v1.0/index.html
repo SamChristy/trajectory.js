@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+  		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  		
+		<title>Arrow Trajectory Calculator</title>
+		<link rel="stylesheet" href="css/arrow.css" />
+	</head>
+	<body>
+		<div id="control-panel">
+			<fieldset>
+				<legend>Projectile Data</legend>
+				<label>Velocity (m/s)<input id="arrow-velocity" value="80" /></label>
+				<label>Angle (&deg;)<input id="arrow-angle" value="5" /></label>
+				<label>Height (m)<input id="arrow-height" value="1.6"></label>
+				<label>Mass (g)<input id="mass" value="3.5" /></label>
+				<label>Diameter (mm)<input id="shaft-diameter" value="9.525" /></label>
+				<label>Drag Coefficient<input id="drag-coefficient" value="0.5" /></label>
+				<label>Gravitational Acceleration<input id="gravity" value="9.81" /></label>
+				<label>Fluid Density (kg/m&sup3;)<input id="fluid-density" value="1.29" /></label>
+				<input id="plot-trajectory" type="button" value="Plot Trajectory" />
+				<input id="generate-image" type="button" value="Generate PNG" title="Generate a copy of the graph that you can save."/>
+			</fieldset>
+			<fieldset style="display:none;">
+				<legend>Graph Settings</legend>
+				<label>Minimum X Axis<input id="min-x" value="0" /></label>
+				<label>Maximum X Axis<input id="max-x" value="50" /></label>
+				<label>Minimum Y Axis<input id="min-y" value="0" /></label>
+				<label>Maximum Y Axis<input id="max-y" value="5" /></label>
+				<label>Precision X Axis<input id="precision-x" value="0" /></label>
+				<label>Precision Y Axis<input id="precision-y" value="1" /></label>
+				<label>Gridlines X Axis<input id="gridlines-x" value="10" /></label>
+				<label>Gridlines Y Axis<input id="gridlines-y" value="10" /></label>
+				<input id="clear-graph" type="button" value="Clear Graph" />
+			</fieldset>	
+		</div>
+		<div id="graph-container"></div>
+		<table>
+			<thead>
+				<tr>
+					<th colspan="2">Flight Stats</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Duration:</td>
+					<td><span id="flight-duration"></span></td>
+					<td>seconds</td>
+				</tr>
+				<tr>
+					<td>Distance:</td>
+					<td><span id="flight-distance"></span></td>
+					<td>metres</td>
+				</tr>
+				<tr>
+					<td>Max Height:</td>
+					<td id="flight-height"></td>
+					<td>metres</td>
+				</tr>
+				<tr>
+					<td>Initial Energry:</td>
+					<td id="kinetic-energy"></td>
+					<td>joules</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<!--<table>
+				<thead>
+					<tr>
+						<th colspan="3">Projectile Data</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th>Velocity:</th>
+						<td><input id="arrow-angle" value="10" /></td>
+						<td>
+							<select>
+								<option>metres/second</option>
+								<option>feet/second</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>Angle:</th>
+						<td><input id="arrow-angle" value="10" /></td>
+						<td>
+							<select>
+								<option>degrees</option>
+								<option>radians</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>Height:</th>
+						<td><input id="arrow-height" value="1.6"></td>
+						<td>
+							<select>
+								<option>metres</option>
+								<option>feet</option>
+								<option>inches</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>Mass:</th>
+						<td><input id="mass" value="32" /></td>
+						<td>
+							<select>
+								<option>grams</option>
+								<option>grains</option>
+								<option>ounces</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>Shaft Diameter:</th>
+						<td><input id="shaft-diameter" value="8" /></td>
+						<td>
+							<select>
+								<option>centimeters</option>
+								<option>inches</option>
+							</select>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="3"><input id="plot-trajectory" type="button" value="Plot Trajectory" /></td>
+					</tr>
+				</tfoot>
+		</table>-->
+		
+		<!-- Using jQuery because I'm lazy! -->
+		<script src="js/jquery-1.7.2.min.js"></script>
+		
+		<script src="js/maths.js"></script>
+		<script src="js/graph.js"></script>
+		<script src="js/settings.js"></script>
+		<script src="js/plot.js"></script>
+		<script src="js/trajectory.js"></script>
+		<script src="js/demo.js"></script>
+		
+		<script>
+			$("#plot-trajectory").click();
+		</script>
+	</body>
+</html>

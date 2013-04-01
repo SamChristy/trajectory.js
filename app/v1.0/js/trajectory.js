@@ -15,7 +15,7 @@ var gravity = 9.81;
  * 
  * @param {float} mass      The arrow's mass (g).
  * @param {float} diameter  The diameter of the arrow's shaft (mm).
- * @param {float} dragCoef  The arrow's drag coefficient.
+ * @param {float} dragCoef The arrow's drag coefficient.
  * @param {float} [density] The density of the medium, e.g. air, (kg/m³).
  * @return {float}
  */
@@ -27,7 +27,7 @@ function dragConstant(mass, diameter, dragCoef, density){
 /**
  * Calculates the maximum height reached during the trajectory of an arrow, as well as its final
  * distance and duration. This function is used to get an even distribution of plots across a 
- * trajectory when using arrowTrajectory.
+ * trajectory when using arrowTrajectory; if that makes sense... :P
  * 
  * @param {float} velocity
  * @param {float} angle
@@ -164,13 +164,11 @@ function arrowTrajectory(velocity, angle, height, k, duration, dt, plotCount){
 			plot++;
 		}
 	}
-    
 	return data;
 }
 
 /**
  * Calculates the distance reached by a projectile in a vacuum.
- * 
  * @param {Float} angle The launch angle in radians.
  * @param {Float} velocity The velocity of the projectile.
  * @param {Float} height The initial height of the projectile (archer's chin  for an arrow).
@@ -184,7 +182,6 @@ function vacFlightDistance(angle, velocity, height){
 
 /**
  * Calculates the maximum height reached by a projectile, in a vacuum.
- * 
  * @param {Float} angle    The initial angle (radians).
  * @param {Float} velocity 
  * @param {Float} height   The projectile's initial height.
@@ -198,7 +195,6 @@ function vacFlightHeight(angle, velocity, height){
 
 /**
  * Calculates the flight duration of a proctile, in a vacuum.
- * 
  * @param {Float} angle The initial angle in radians.
  * @param {Float} velocity
  * @param {Float} height The projectile's initial height.
