@@ -288,7 +288,7 @@ Graph.defaultSettings = {
 	backgroundColour: "#FFF",
 	
 	titleOffset: 10,
-	titleFont: "bold 14pt Calibri",
+	titleFont: "bold 14pt sans-serif",
 	
 	tickLength: 5,
 	gridlineWidth: 1,
@@ -298,7 +298,7 @@ Graph.defaultSettings = {
 	yGridlineCount: 10,
 	
 	labelOffset: 10,
-	labelFont: "11pt Calibri",
+	labelFont: "11pt sans-serif",
 	
 	plotLineWidth: 2.25,
 	
