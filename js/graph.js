@@ -30,6 +30,8 @@ function Graph(width, height, settings){
 	this._canvas.width = width;
 	this._canvas.height = height;
 	this._c = this._canvas.getContext("2d");
+    
+    this._autoScaleDPI(width, height);
 }
 
 /**
@@ -299,8 +301,10 @@ Graph.defaultSettings = {
 	
 	labelOffset: 10,
 	labelFont: "11pt sans-serif",
-	
-	plotLineWidth: 2.25,
+    
+    plotLineWidth: 3.5,
+
+    autoScale: true,
 	
 	plotArea: {
 		left: 80,
@@ -514,6 +518,49 @@ Graph.prototype._drawTitle = function(text, position){
 	this._c.fillText(text, 0, 0);
 	
 	this._c.restore();
+}
+
+/**
+ * Scales the plot area to the native resolution of high-DPI devices, so that
+ * the graph does not appear blurry. This function also scales the graph's text
+ * and lines, in proportion with the client's pixel density.
+ * 
+ * @param {int} width
+ * @param {int} height
+ * @returns {float}
+ */
+Graph.prototype._autoScaleDPI = function(width, height) {
+    // Explanation: http://www.html5rocks.com/en/tutorials/canvas/hidpi/
+    var devicePixelRatio = window.devicePixelRatio || 1;
+    var backingStoreRatio = this._c.webkitBackingStorePixelRatio
+        || this._c.mozBackingStorePixelRatio || this._c.msBackingStorePixelRatio
+        || this._c.oBackingStorePixelRatio || this._c.backingStorePixelRatio || 1;
+    var ratio = devicePixelRatio / backingStoreRatio;
+    
+    if (this._autoScale && devicePixelRatio !== backingStoreRatio) {
+        // Scale up to the device's native resolution.
+        this._canvas.width *= ratio;
+        this._canvas.height *= ratio;
+        
+        // Use CSS to scale back down to the device's logical resolution.
+        this._canvas.style.width = width + 'px';
+        this._canvas.style.height = height + 'px';
+        
+        // Scale up the width of the lines.
+        this._gridlineWidth *= ratio;
+        this._plotLineWidth *= ratio;
+        this._tickLength *= ratio;
+        
+        // Scale up the size of the text (slightly hacky!)
+        var numberRegex = /\d+\.?\d*/;
+        var titleFontSize = parseFloat(this._titleFont.match(numberRegex)[0]);
+        var labelFontSize = parseFloat(this._labelFont.match(numberRegex)[0]);
+        
+        this._titleFont = this._titleFont.replace(numberRegex, titleFontSize * ratio);
+        this._labelFont = this._labelFont.replace(numberRegex, labelFontSize * ratio);
+    }
+    
+    return ratio;
 }
 
 /**
