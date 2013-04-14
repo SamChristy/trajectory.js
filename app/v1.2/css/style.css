@@ -1,0 +1,91 @@
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    font: 14pt sans-serif;
+    color: #333;
+}
+
+#graph-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 74.5%;
+    height: 100%;
+}
+
+#control-panel {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 25%;
+    height: 100%;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: -.1em 0 0.8em #888;
+}
+
+h2 {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin: 0;
+    width: 25%;
+    padding: .3333333em 0;
+    background: #333;
+    text-align: center;
+    display: table-cell;
+    font-size: 1em;
+    color: #fff;
+}
+
+#input-fields {
+    position: relative;
+    padding: 2%;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+#controls {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    padding: 0 1% 1% 1%;
+    width: 23%;
+}
+
+label {
+    font-style: italic;
+}
+
+input {
+    display: block;
+    width: 90%;
+    margin: 0.2em 0 4% 0;
+    padding: 0.15em;
+    line-height: 1.5;
+}
+
+#input-fields input {
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    border-radius: 4px;
+}
+
+label, input {
+    font-size: 0.9em;
+    margin-left: 3%;
+}
+
+input[type="button"] {
+    font-size: 0.8em;
+    margin-bottom: 0.6em;
+    height: 2.5em;
+    text-decoration: none;
+}
+
+#flight-stats {
+    display: none;
+}
