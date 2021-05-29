@@ -2,9 +2,9 @@ Trajectory.js
 =============
 
 ### Live Demo
-- [Version 1.2](http://samchristy.github.com/trajectory.js/app/v1.2/) (optimised for tablets)
-- [Version 1.1](http://samchristy.github.com/trajectory.js/app/v1.1/)
-- [Version 1.0](http://samchristy.github.com/trajectory.js/app/v1.0/) (single-threaded, for IE9 users)
+- [Version 1.2](https://samchristy.github.io/trajectory.js/app/v1.2/) (optimised for tablets)
+- [Version 1.1](https://samchristy.github.io/trajectory.js/app/v1.1/)
+- [Version 1.0](https://samchristy.github.io/trajectory.js/app/v1.0/) (single-threaded, for IE9 users)
 
 #### Supported Browsers
 The following browsers are supported (according to [caniuse.com](http://caniuse.com/)):
